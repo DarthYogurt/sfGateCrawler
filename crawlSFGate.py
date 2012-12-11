@@ -7,11 +7,12 @@ import time, sys, uuid, json, codecs, getopt, datetime
 from couchbase import Couchbase
 import hashlib
 
-SERVER_NAME = "54.241.10.208"
-SERVER_PORT = "8091"
-USERNAME 	= "Administrator"
-PASSWORD 	= "supermanfly"
-CB_BUCKET_NAME = "Events"
+from connector import connector
+SERVER_NAME = connector.SERVER_NAME
+SERVER_PORT = connector.SERVER_PORT
+USERNAME 	= connector.USERNAME
+PASSWORD 	= connector.PASSWORD
+CB_BUCKET_NAME = connector.CB_BUCKET_NAME
 
 couchbase = Couchbase("%s:%s" % (SERVER_NAME, SERVER_PORT), username=USERNAME, password=PASSWORD)
 bucket = couchbase[CB_BUCKET_NAME]
@@ -61,9 +62,6 @@ def crawlSFGate(url):
 		try:	eventTimeRaw       = bSoup.find('abbr', attrs = {'class':'dtstart'}).contents[0]
 		except:	eventTimeRaw = ""
 
-		print eventStartDateTime
-		print eventTimeRaw
-		
 		#Venue Info   Generic
 		venue 			= bSoup.find('div', attrs = {'class':'venue'}).next_element.next_element
 		venueID			= venue.attrs['data-z-destination-venue-id']
